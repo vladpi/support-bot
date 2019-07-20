@@ -44,8 +44,6 @@ def main():
             if event.type == VkEventType.MESSAGE_NEW and event.to_me:
                 handle_message(event, session_api)
 
-        logger.info('End polling')
-
     except Exception as ex:
         logger.error(ex, exc_info=True)
 

@@ -43,7 +43,6 @@ def main():
 
         logger.info('Start polling')
         updater.start_polling()
-        logger.info('End polling')
 
     except Exception as ex:
         logger.error(ex, exc_info=True)
