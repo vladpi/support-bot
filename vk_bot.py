@@ -28,24 +28,20 @@ def handle_message(event, session_api):
         logger.debug('Send reply message: {answer}'.format(answer=answer))
 
 
-def main():
-    """ Long polling Bot for VK group """
+def run_bot():
+    """Start long polling Bot for VK group """
 
-    try:
-        vk_token = os.environ.get('VK_TOKEN')
+    vk_token = os.environ.get('VK_TOKEN')
 
-        vk_session = vk_api.VkApi(token=vk_token)
-        session_api = vk_session.get_api()
-        polling = VkLongPoll(vk_session)
+    vk_session = vk_api.VkApi(token=vk_token)
+    session_api = vk_session.get_api()
+    polling = VkLongPoll(vk_session)
 
-        logger.info('Start polling')
+    logger.info('Start polling')
 
-        for event in polling.listen():
-            if event.type == VkEventType.MESSAGE_NEW and event.to_me:
-                handle_message(event, session_api)
-
-    except Exception as ex:
-        logger.error(ex, exc_info=True)
+    for event in polling.listen():
+        if event.type == VkEventType.MESSAGE_NEW and event.to_me:
+            handle_message(event, session_api)
 
 
 if __name__ == '__main__':
@@ -62,4 +58,7 @@ if __name__ == '__main__':
     else:
         logger.addHandler(logging.StreamHandler())
 
-    main()
+    try:
+        run_bot()
+    except Exception as ex:
+        logger.error(ex, exc_info=True)

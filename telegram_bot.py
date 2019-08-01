@@ -28,24 +28,22 @@ def handle_message(bot, update):
     logger.debug('Send reply message: {answer}'.format(answer=answer))
 
 
-def main():
-    try:
-        bot_token = os.environ.get('TG_TOKEN')
+def run_bot():
+    """Start long polling Telegram Bot"""
 
-        updater = Updater(bot_token)
-        dispatcher = updater.dispatcher
+    bot_token = os.environ.get('TG_TOKEN')
 
-        start_handler = CommandHandler('start', handle_start)
-        echo_handler = MessageHandler(Filters.text, handle_message)
+    updater = Updater(bot_token)
+    dispatcher = updater.dispatcher
 
-        dispatcher.add_handler(start_handler)
-        dispatcher.add_handler(echo_handler)
+    start_handler = CommandHandler('start', handle_start)
+    echo_handler = MessageHandler(Filters.text, handle_message)
 
-        logger.info('Start polling')
-        updater.start_polling()
+    dispatcher.add_handler(start_handler)
+    dispatcher.add_handler(echo_handler)
 
-    except Exception as ex:
-        logger.error(ex, exc_info=True)
+    logger.info('Start polling')
+    updater.start_polling()
 
 
 if __name__ == '__main__':
@@ -62,4 +60,7 @@ if __name__ == '__main__':
     else:
         logger.addHandler(logging.StreamHandler())
 
-    main()
+    try:
+        run_bot()
+    except Exception as ex:
+        logger.error(ex, exc_info=True)
