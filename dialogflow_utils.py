@@ -15,7 +15,7 @@ def get_answer(message_text, session_id):
     query_input = dialogflow.types.QueryInput(text=text_input)
     response = session_client.detect_intent(session=session, query_input=query_input)
 
-    return response.query_result.fulfillment_text, response.query_result.intent.display_name
+    return response.query_result.fulfillment_text, response.query_result.intent
 
 
 def create_intent(title, questions, answer):

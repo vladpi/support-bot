@@ -19,7 +19,7 @@ def handle_message(event, session_api):
 
     answer, intent = get_answer(event.text, event.user_id)
 
-    if intent != 'Default Fallback Intent':
+    if not intent.is_fallback:
         session_api.messages.send(
             user_id=event.user_id,
             message=answer,
